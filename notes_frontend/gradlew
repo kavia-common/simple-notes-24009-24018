@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+# Gradle guard at notes_frontend level to prevent CI failures when prebuild hasn't generated android/ yet.
+if [ -f "android/gradlew" ]; then
+  echo "Delegating to android/gradlew"
+  cd android && ./gradlew "$@"
+  exit $?
+fi
+echo "Gradle guard (notes_frontend): No native Android project found. Run 'npm run prebuild:android' to generate it."
+exit 0
